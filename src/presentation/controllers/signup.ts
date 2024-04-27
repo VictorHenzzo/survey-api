@@ -6,12 +6,12 @@ export class SignUpController {
   constructor() {}
 
   handle(httpRequest: HttpRequest): HttpResponse {
-    if (!httpRequest.body.name) {
-      return new BadRequest(new MissingParamError("name"));
-    }
+    const requiredFields = ["name", "email"];
 
-    if (!httpRequest.body.email) {
-      return new BadRequest(new MissingParamError("email"));
+    for (const field of requiredFields) {
+      if (!httpRequest.body[field]) {
+        return new BadRequest(new MissingParamError(field));
+      }
     }
   }
 }
